@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+
+<configuration>
+    <!--关联实体路径，对应UserMapper.xml 的 resultType="User"-->
+    <typeAliases>
+        <typeAlias alias="User" type="com.lzy.springweb.entity.User"/>
+    </typeAliases>
+
+    <!--关联mapper-->
+    <mappers>
+        <mapper resource="mappers/UserMapper.xml"/>
+    </mappers>
+
+
+
+</configuration>

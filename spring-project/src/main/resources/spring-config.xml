@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/context
+            http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+
+    <!--我们可以将这个bean理解为我们的javaBean，其中两个property标签即表示给User类中的name和age属性赋值！-->
+    <bean id="user" class="com.lzy.springweb.entity.User" scope="singleton">
+        <property name="id" value="10"></property>
+        <property name="name" value="spring"/>
+        <property name="age" value="18"/>
+    </bean>
+
+    <!--book类-->
+    <bean id="book" class="com.lzy.springweb.entity.Book" scope="singleton" init-method="init" destroy-method="destroy">
+
+    </bean>
+
+    <!--============================mysql-begin ===================-->
+    <!--表明引用的参数配置文件是jdbc.properties-->
+    <context:property-placeholder location="classpath:jdbc.properteis" />
+
+    <!--连接信息-->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="${jdbc.driverClassName}" />
+        <property name="url" value="${jdbc.url}" />
+        <property name="username" value="${jdbc.username}" />
+        <property name="password" value="${jdbc.password}" />
+    </bean>
+    <!--============================mysql-end  ===================-->
+
+    <!-- 配置SqlSessionFactory对象 -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!-- 注入数据库连接池 -->
+        <property name="dataSource" ref="dataSource"/>
+        <property name="configLocation" value="mybatis-config.xml"/>
+
+    </bean>
+
+    <!--配置userMapper对象-->
+    <bean id="userService" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="com.lzy.springweb.dao.UserDao"/>
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+    </bean>
+
+
+
+
+</beans>
+
+
